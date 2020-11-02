@@ -70,7 +70,7 @@ describe('ExchangeService', () => {
       });
       expect(
         await service.convertAmount({ from: 'USD', to: 'BRL', amount: 1 }),
-      ).toEqual({ amount: 0.2 });
+      ).toEqual({ amount: 5 });
     });
   });
 });
