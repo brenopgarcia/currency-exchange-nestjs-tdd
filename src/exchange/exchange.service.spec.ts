@@ -62,6 +62,13 @@ describe('ExchangeService', () => {
     });
 
     it('should be return conversion value', async () => {
+      (currenciesService.getCurrency as jest.Mock).mockResolvedValue({
+        value: 1,
+      });
+      expect(
+        await service.convertAmount({ from: 'USD', to: 'USD', amount: 1 }),
+      ).toEqual({ amount: 1 });
+
       (currenciesService.getCurrency as jest.Mock).mockResolvedValueOnce({
         value: 1,
       });
@@ -71,6 +78,16 @@ describe('ExchangeService', () => {
       expect(
         await service.convertAmount({ from: 'USD', to: 'BRL', amount: 1 }),
       ).toEqual({ amount: 5 });
+
+      (currenciesService.getCurrency as jest.Mock).mockResolvedValueOnce({
+        value: 0.2,
+      });
+      (currenciesService.getCurrency as jest.Mock).mockResolvedValueOnce({
+        value: 1,
+      });
+      expect(
+        await service.convertAmount({ from: 'BRL', to: 'USD', amount: 1 }),
+      ).toEqual({ amount: 0.2 });
     });
   });
 });
